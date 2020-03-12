@@ -455,32 +455,32 @@ static int at91_adc_probe(struct platform_device *pdev)
 	if (IS_ERR(st->per_clk))
 		return PTR_ERR(st->per_clk);
 
-	st->reg = devm_regulator_get(&pdev->dev, "vddana");
-	if (IS_ERR(st->reg))
-		return PTR_ERR(st->reg);
+	//st->reg = devm_regulator_get(&pdev->dev, "vddana");
+	//if (IS_ERR(st->reg))
+	//	return PTR_ERR(st->reg);
 
-	st->vref = devm_regulator_get(&pdev->dev, "vref");
-	if (IS_ERR(st->vref))
-		return PTR_ERR(st->vref);
+	//st->vref = devm_regulator_get(&pdev->dev, "vref");
+	//if (IS_ERR(st->vref))
+	//	return PTR_ERR(st->vref);
 
 	ret = devm_request_irq(&pdev->dev, st->irq, at91_adc_interrupt, 0,
 			       pdev->dev.driver->name, indio_dev);
 	if (ret)
 		return ret;
 
-	ret = regulator_enable(st->reg);
-	if (ret)
-		return ret;
+	//ret = regulator_enable(st->reg);
+	//if (ret)
+	//	return ret;
 
-	ret = regulator_enable(st->vref);
-	if (ret)
-		goto reg_disable;
+	//ret = regulator_enable(st->vref);
+	//if (ret)
+	//	goto reg_disable;
 
-	st->vref_uv = regulator_get_voltage(st->vref);
-	if (st->vref_uv <= 0) {
-		ret = -EINVAL;
-		goto vref_disable;
-	}
+	//st->vref_uv = regulator_get_voltage(st->vref);
+	//if (st->vref_uv <= 0) {
+	//	ret = -EINVAL;
+	//	goto vref_disable;
+	//}
 
 	at91_adc_writel(st, AT91_SAMA5D2_CR, AT91_SAMA5D2_CR_SWRST);
 	at91_adc_writel(st, AT91_SAMA5D2_IDR, 0xffffffff);
@@ -512,8 +512,8 @@ per_clk_disable_unprepare:
 	clk_disable_unprepare(st->per_clk);
 vref_disable:
 	regulator_disable(st->vref);
-reg_disable:
-	regulator_disable(st->reg);
+//reg_disable:
+//	regulator_disable(st->reg);
 	return ret;
 }
 
